@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="app.calculator.MainMenuController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to bottom, #f0f0f0, #dcdcdc);" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="app.calculator.MainMenuController">
     <children>
-        <VBox alignment="CENTER" spacing="10" layoutX="150" layoutY="50">
-            <Label text="Calculadora - Menu principal" style="-fx-font-size: 18px;" />
-            <Button text="Operaciones basicas" onAction="#openBasic" />
-            <Button text="Operaciones con Vectores" onAction="#openVectors" />
-            <Button text="Operaciones de matrices" onAction="#openMatrices" />
-            <Button text="Sistemas de ecuaciones" onAction="#openSystems" />
-            <Button text="Salir del programa" onAction="#exitApplication" />
+        <VBox alignment="CENTER" layoutX="56.0" layoutY="81.0" prefWidth="500" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Calculadora - Menú Principal" />
+
+            <Button onAction="#openBasic" styleClass="menu-button" text="Operaciones básicas" />
+            <Button onAction="#openVectors" styleClass="menu-button" text="Operaciones con Vectores" />
+            <Button onAction="#openMatrices" styleClass="menu-button" text="Operaciones de Matrices" />
+            <Button onAction="#openSystems" styleClass="menu-button" text="Sistemas de Ecuaciones" />
+            <Button onAction="#exitApplication" styleClass="menu-button-exit" text="Salir del Programa" />
         </VBox>
     </children>
 </AnchorPane>
