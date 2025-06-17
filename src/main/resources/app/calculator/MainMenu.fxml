@@ -7,12 +7,12 @@
             prefHeight="400.0" prefWidth="600.0">
     <children>
         <VBox alignment="CENTER" spacing="10" layoutX="150" layoutY="50">
-            <Label text="Calculator - Main Menu" style="-fx-font-size: 18px;" />
-            <Button text="Basic Operations" onAction="#openBasic" />
-            <Button text="Vector Operations" onAction="#openVectors" />
-            <Button text="Matrix Operations" onAction="#openMatrices" />
-            <Button text="Equation Systems" onAction="#openSystems" />
-            <Button text="Exit" onAction="#exitApplication" />
+            <Label text="Calculadora - Menu principal" style="-fx-font-size: 18px;" />
+            <Button text="Operaciones basicas" onAction="#openBasic" />
+            <Button text="Operaciones con Vectores" onAction="#openVectors" />
+            <Button text="Operaciones de matrices" onAction="#openMatrices" />
+            <Button text="Sistemas de ecuaciones" onAction="#openSystems" />
+            <Button text="Salir del programa" onAction="#exitApplication" />
         </VBox>
     </children>
 </AnchorPane>

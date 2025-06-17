@@ -12,7 +12,7 @@ import java.io.IOException;
 public class MainMenuController {
 
     public void openBasic(ActionEvent event) throws IOException {
-        loadView(event, "/resources/Basic.fxml", "Basic Operations");
+        loadView(event, "Basic.fxml", "Basic Operations");
     }
 
     public void openVectors(ActionEvent event) throws IOException {
