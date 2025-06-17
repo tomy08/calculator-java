@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="app.calculator.MainMenuController"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <VBox alignment="CENTER" spacing="10" layoutX="150" layoutY="50">
+            <Label text="Calculator - Main Menu" style="-fx-font-size: 18px;" />
+            <Button text="Basic Operations" onAction="#openBasic" />
+            <Button text="Vector Operations" onAction="#openVectors" />
+            <Button text="Matrix Operations" onAction="#openMatrices" />
+            <Button text="Equation Systems" onAction="#openSystems" />
+            <Button text="Exit" onAction="#exitApplication" />
+        </VBox>
+    </children>
+</AnchorPane>
