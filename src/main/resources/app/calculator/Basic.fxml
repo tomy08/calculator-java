@@ -19,7 +19,6 @@
             <ColumnConstraints percentWidth="25"/>
         </columnConstraints>
 
-        <!-- Fila 1 -->
         <Button text="7" onAction="#handleBoton" GridPane.rowIndex="0" GridPane.columnIndex="0"
                 style="-fx-font-size: 16px; -fx-background-color: #e5e5e5; -fx-text-fill: black; -fx-pref-height: 40px;"/>
         <Button text="8" onAction="#handleBoton" GridPane.rowIndex="0" GridPane.columnIndex="1"
@@ -29,7 +28,6 @@
         <Button text="/" onAction="#handleBoton" GridPane.rowIndex="0" GridPane.columnIndex="3"
                 style="-fx-font-size: 16px; -fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-pref-height: 40px;"/>
 
-        <!-- Fila 2 -->
         <Button text="4" onAction="#handleBoton" GridPane.rowIndex="1" GridPane.columnIndex="0"
                 style="-fx-font-size: 16px; -fx-background-color: #e5e5e5; -fx-text-fill: black; -fx-pref-height: 40px;"/>
         <Button text="5" onAction="#handleBoton" GridPane.rowIndex="1" GridPane.columnIndex="1"
@@ -39,7 +37,6 @@
         <Button text="*" onAction="#handleBoton" GridPane.rowIndex="1" GridPane.columnIndex="3"
                 style="-fx-font-size: 16px; -fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-pref-height: 40px;"/>
 
-        <!-- Fila 3 -->
         <Button text="1" onAction="#handleBoton" GridPane.rowIndex="2" GridPane.columnIndex="0"
                 style="-fx-font-size: 16px; -fx-background-color: #e5e5e5; -fx-text-fill: black; -fx-pref-height: 40px;"/>
         <Button text="2" onAction="#handleBoton" GridPane.rowIndex="2" GridPane.columnIndex="1"
@@ -49,7 +46,6 @@
         <Button text="-" onAction="#handleBoton" GridPane.rowIndex="2" GridPane.columnIndex="3"
                 style="-fx-font-size: 16px; -fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-pref-height: 40px;"/>
 
-        <!-- Fila 4 -->
         <Button text="0" onAction="#handleBoton" GridPane.rowIndex="3" GridPane.columnIndex="0"
                 style="-fx-font-size: 16px; -fx-background-color: #e5e5e5; -fx-text-fill: black; -fx-pref-height: 40px;"/>
         <Button text="," onAction="#handleBoton" GridPane.rowIndex="3" GridPane.columnIndex="1"
@@ -59,7 +55,6 @@
         <Button text=")" onAction="#handleBoton" GridPane.rowIndex="3" GridPane.columnIndex="3"
                 style="-fx-font-size: 16px; -fx-background-color: #e5e5e5; -fx-text-fill: black; -fx-pref-height: 40px;"/>
 
-        <!-- Fila 5 -->
         <Button text="C" onAction="#handleClear" GridPane.rowIndex="4" GridPane.columnIndex="0"
                 style="-fx-font-size: 16px; -fx-background-color: #f0cfcf; -fx-text-fill: black; -fx-pref-height: 40px;"/>
         <Button text="Ans" onAction="#handleAns" GridPane.rowIndex="4" GridPane.columnIndex="1"
@@ -69,12 +64,23 @@
         <Button text="^" onAction="#handleBoton" GridPane.rowIndex="4" GridPane.columnIndex="3"
                 style="-fx-font-size: 16px; -fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-pref-height: 40px;"/>
 
-        <!-- Fila 6 -->
         <Button text="√" onAction="#handleBoton" GridPane.rowIndex="5" GridPane.columnIndex="0"
                 style="-fx-font-size: 16px; -fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-pref-height: 40px;"/>
         <Button text="+" onAction="#handleBoton" GridPane.rowIndex="5" GridPane.columnIndex="1"
                 style="-fx-font-size: 16px; -fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-pref-height: 40px;"/>
         <Button text="=" onAction="#handleIgual" GridPane.rowIndex="5" GridPane.columnIndex="2" GridPane.columnSpan="2"
                 style="-fx-background-color: #0078d7; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-pref-height: 40px;"/>
+        <Button text=";" onAction="#handleBoton" GridPane.rowIndex="5" GridPane.columnIndex="3" GridPane.columnSpan="2"
+                style="-fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-font-size: 16px; -fx-pref-height: 40px;"/>
+
+
+        <Button text="{" onAction="#handleBoton" GridPane.rowIndex="6" GridPane.columnIndex="0"
+                style="-fx-font-size: 16px; -fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-pref-height: 40px;"/>
+        <Button text="}" onAction="#handleBoton" GridPane.rowIndex="6" GridPane.columnIndex="1"
+                style="-fx-font-size: 16px; -fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-pref-height: 40px;"/>
+        <Button text="INV" onAction="#handleIgual" GridPane.rowIndex="6" GridPane.columnIndex="2" GridPane.columnSpan="2"
+                style="-fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-font-size: 16px;  -fx-pref-height: 40px;"/>
+        <Button text="DET" onAction="#handleBoton" GridPane.rowIndex="6" GridPane.columnIndex="3" GridPane.columnSpan="2"
+                style="-fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-font-size: 16px; -fx-pref-height: 40px;"/>
     </GridPane>
 </VBox>
