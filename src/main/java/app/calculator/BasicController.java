@@ -2,9 +2,8 @@ package app.calculator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
-import javafx.scene.input.KeyCode;
+import Jama.Matrix;
 
 public class BasicController {
 
@@ -12,39 +11,23 @@ public class BasicController {
     private TextField pantalla;
 
     private double ans = 0;
-
     private int pos;
     private String input;
 
     @FXML
     private void initialize() {
-        pantalla.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                handleIgual();
+        pantalla.setOnKeyTyped(event -> {
+            if (event.getCharacter().equals(",")) {
                 event.consume();
+                pantalla.appendText(".");
             }
         });
     }
 
     @FXML
-    private void handleBorrar() {
-        String texto = pantalla.getText();
-        if (!texto.isEmpty()) {
-            pantalla.setText(texto.substring(0, texto.length() - 1));
-            pantalla.positionCaret(pantalla.getText().length());
-        }
-    }
-
-
-    @FXML
     private void handleBoton(ActionEvent event) {
-        String texto = ((Button) event.getSource()).getText();
-
-        if (texto.equals("√")) {
-            insertarRaizConParentesis();
-        } else {
-            pantalla.appendText(texto);
-        }
+        String textoBoton = ((javafx.scene.control.Button) event.getSource()).getText();
+        pantalla.appendText(textoBoton);
     }
 
     @FXML
@@ -53,187 +36,91 @@ public class BasicController {
     }
 
     @FXML
-    private void handleAns() {
-        pantalla.appendText(String.valueOf(ans));
-    }
-
-    @FXML
     private void handleIgual() {
+        String expr = pantalla.getText().replace(",", ".").trim();
+
         try {
-            String expr = pantalla.getText();
-            expr = reemplazarRaices(expr);
-            double resultado = evaluar(expr);
-            ans = resultado;
+            if (expr.contains("INV")) {
+                String matrizStr = extraerMatriz(expr);
+                double[][] matriz = parsearMatriz(matrizStr);
+                double[][] inversa = invertirMatriz(matriz);
+                pantalla.setText(matrizToString(inversa));
+                return;
+
+            } else if (expr.contains("DET")) {
+                String matrizStr = extraerMatriz(expr);
+                double[][] matriz = parsearMatriz(matrizStr);
+                double determinante = calcularDeterminante(matriz);
+                pantalla.setText(String.valueOf(determinante));
+                return;
+            }
+
+            // Evaluación matemática normal (usá tu parser si tenés uno)
+            double resultado = eval(expr);
             pantalla.setText(String.valueOf(resultado));
-            pantalla.positionCaret(pantalla.getText().length());
+
         } catch (Exception e) {
-            pantalla.setText("Error");
+            pantalla.setText("ERROR");
+            e.printStackTrace();
         }
     }
 
-    private void insertarRaizConParentesis() {
-        pantalla.appendText("√(");
-        pantalla.requestFocus();
-        pantalla.positionCaret(pantalla.getText().length() - 1);
+    private String extraerMatriz(String expr) {
+        int start = expr.indexOf("{");
+        int end = expr.lastIndexOf("}");
+        if (start == -1 || end == -1 || end <= start) throw new RuntimeException("Matriz mal formada");
+        return expr.substring(start, end + 1);
     }
 
-
-    /**
-     * Convierte expresiones con raíz (√) en potencias con exponentes fraccionales.
-     * Por ejemplo: 3√(8) => (8)^(1/3)
-     * Si no hay índice antes de la raíz, se asume raíz cuadrada.
-     */
-    private String reemplazarRaices(String expr) {
-        StringBuilder nueva = new StringBuilder();
-        for (int i = 0; i < expr.length(); i++) {
-            char c = expr.charAt(i);
-            if (c == '√') {
-                // Buscar índice n antes de la raíz (n√)
-                int j = i - 1;
-                StringBuilder sbNum = new StringBuilder();
-                while (j >= 0 && (Character.isDigit(expr.charAt(j)) || expr.charAt(j) == '.')) {
-                    sbNum.insert(0, expr.charAt(j));
-                    j--;
-                }
-                double n;
-                if (sbNum.length() == 0) {
-                    n = 2; // raíz cuadrada por defecto
-                } else {
-                    n = Double.parseDouble(sbNum.toString());
-                    // Borrar ese número que ya fue tomado (n) para no duplicar
-                    nueva.delete(nueva.length() - sbNum.length(), nueva.length());
-                }
-
-                // Obtener contenido dentro de paréntesis tras la raíz
-                int k = i + 1;
-                if (k < expr.length() && expr.charAt(k) == '(') {
-                    int count = 1;
-                    k++;
-                    int start = k;
-                    while (k < expr.length() && count > 0) {
-                        if (expr.charAt(k) == '(') count++;
-                        else if (expr.charAt(k) == ')') count--;
-                        k++;
-                    }
-                    String inside = expr.substring(start, k - 1);
-                    nueva.append("(").append(inside).append(")^(1/").append(n).append(")");
-                    i = k - 1;
-                } else {
-                    // Si no hay paréntesis, tomar el siguiente número simple
-                    StringBuilder sbX = new StringBuilder();
-                    while (k < expr.length() && (Character.isDigit(expr.charAt(k)) || expr.charAt(k) == '.')) {
-                        sbX.append(expr.charAt(k));
-                        k++;
-                    }
-                    nueva.append("(").append(sbX).append(")^(1/").append(n).append(")");
-                    i = k - 1;
-                }
-            } else {
-                nueva.append(c);
+    private double[][] parsearMatriz(String texto) {
+        texto = texto.replace("{", "").replace("}", "").trim();
+        String[] filas = texto.split(";");
+        double[][] matriz = new double[filas.length][];
+        for (int i = 0; i < filas.length; i++) {
+            String[] nums = filas[i].trim().split("\\s+");
+            matriz[i] = new double[nums.length];
+            for (int j = 0; j < nums.length; j++) {
+                matriz[i][j] = Double.parseDouble(nums[j]);
             }
         }
-        return nueva.toString();
+        return matriz;
     }
 
-    private double evaluar(String expr) {
-        this.input = expr.replace(" ", "").replace("Ans", String.valueOf(ans));
-        this.pos = 0;
-        return parseExpression();
+    private double[][] invertirMatriz(double[][] matriz) {
+        int n = matriz.length;
+        if (n != matriz[0].length) throw new RuntimeException("Matriz no cuadrada");
+        Matrix m = new Matrix(matriz);
+        Matrix inv = m.inverse();
+        return inv.getArray();
     }
 
-    private double parseExpression() {
-        double x = parseTerm();
-        while (pos < input.length()) {
-            char op = input.charAt(pos);
-            if (op == '+' || op == '-') {
-                pos++;
-                double y = parseTerm();
-                if (op == '+') x += y;
-                else x -= y;
-            } else {
-                break;
+    private double calcularDeterminante(double[][] matriz) {
+        Matrix m = new Matrix(matriz);
+        return m.det();
+    }
+
+    private String matrizToString(double[][] matriz) {
+        StringBuilder sb = new StringBuilder("{");
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                sb.append(String.format("%.2f", matriz[i][j]));
+                if (j < matriz[i].length - 1) sb.append(" ");
             }
+            if (i < matriz.length - 1) sb.append("; ");
         }
-        return x;
+        sb.append("}");
+        return sb.toString();
     }
 
-    private double parseTerm() {
-        double x = parseFactor();
-        while (pos < input.length()) {
-            char op = input.charAt(pos);
-            if (op == '*' || op == '/') {
-                pos++;
-                double y = parseFactor();
-                if (op == '*') x *= y;
-                else {
-                    if (y == 0) throw new ArithmeticException("División por cero");
-                    x /= y;
-                }
-            } else {
-                break;
-            }
-        }
-        return x;
+
+    private double eval(String expr) {
+        // Evaluación muy básica (solo suma/resta) – reemplazalo con un parser si tenés
+        return new javax.script.ScriptEngineManager()
+                .getEngineByName("JavaScript")
+                .eval(expr) instanceof Number
+                ? ((Number) new javax.script.ScriptEngineManager()
+                .getEngineByName("JavaScript")
+                .eval(expr)).doubleValue()
+                : 0;
     }
-
-    private double parseFactor() {
-        return parsePower();
-    }
-
-    private double parsePower() {
-        double x = parseUnary();
-        while (pos < input.length() && input.charAt(pos) == '^') {
-            pos++;
-            double y = parseUnary();
-            x = Math.pow(x, y);
-        }
-        return x;
-    }
-
-    private double parseUnary() {
-        if (pos < input.length()) {
-            char c = input.charAt(pos);
-            if (c == '+') {
-                pos++;
-                return parseUnary();
-            }
-            if (c == '-') {
-                pos++;
-                return -parseUnary();
-            }
-        }
-        return parsePrimary();
-    }
-
-    private double parsePrimary() {
-        if (pos >= input.length()) throw new RuntimeException("Expresión incompleta");
-
-        char c = input.charAt(pos);
-
-        if (c == '(') {
-            pos++;
-            double x = parseExpression();
-            if (pos >= input.length() || input.charAt(pos) != ')')
-                throw new RuntimeException("Paréntesis no cerrado");
-            pos++;
-            return x;
-        }
-
-        StringBuilder sb = new StringBuilder();
-        boolean decimalFound = false;
-        while (pos < input.length() && (Character.isDigit(input.charAt(pos)) || input.charAt(pos) == '.')) {
-            if (input.charAt(pos) == '.') {
-                if (decimalFound) break;
-                decimalFound = true;
-            }
-            sb.append(input.charAt(pos++));
-        }
-
-        if (sb.length() == 0) {
-            throw new RuntimeException("Número esperado en posición " + pos);
-        }
-
-        return Double.parseDouble(sb.toString());
-    }
-
 }
