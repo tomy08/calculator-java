@@ -1,9 +1,8 @@
 package app.calculator;
 
+import Jama.Matrix;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.event.ActionEvent;
-import Jama.Matrix;
 
 public class BasicController {
 
@@ -15,112 +14,180 @@ public class BasicController {
     private String input;
 
     @FXML
-    private void initialize() {
-        pantalla.setOnKeyTyped(event -> {
-            if (event.getCharacter().equals(",")) {
-                event.consume();
-                pantalla.appendText(".");
-            }
-        });
-    }
-
-    @FXML
-    private void handleBoton(ActionEvent event) {
-        String textoBoton = ((javafx.scene.control.Button) event.getSource()).getText();
-        pantalla.appendText(textoBoton);
-    }
-
-    @FXML
-    private void handleClear() {
-        pantalla.clear();
-    }
-
-    @FXML
     private void handleIgual() {
-        String expr = pantalla.getText().replace(",", ".").trim();
-
         try {
-            if (expr.contains("INV")) {
-                String matrizStr = extraerMatriz(expr);
-                double[][] matriz = parsearMatriz(matrizStr);
-                double[][] inversa = invertirMatriz(matriz);
-                pantalla.setText(matrizToString(inversa));
-                return;
+            String expr = pantalla.getText().trim();
 
-            } else if (expr.contains("DET")) {
-                String matrizStr = extraerMatriz(expr);
-                double[][] matriz = parsearMatriz(matrizStr);
-                double determinante = calcularDeterminante(matriz);
-                pantalla.setText(String.valueOf(determinante));
+            // === OPERACIONES CON MATRICES ===
+            if (expr.startsWith("INV")) {
+                Matrix m = parseMatrix(expr.substring(3));
+                pantalla.setText(matrixToString(m.inverse()));
+                return;
+            } else if (expr.startsWith("DET")) {
+                Matrix m = parseMatrix(expr.substring(3));
+                pantalla.setText(String.valueOf(m.det()));
+                return;
+            } else if (expr.startsWith("T")) {
+                Matrix m = parseMatrix(expr.substring(1));
+                pantalla.setText(matrixToString(m.transpose()));
+                return;
+            } else if (expr.contains("+") && expr.contains("{")) {
+                String[] partes = expr.split("\\+");
+                Matrix m1 = parseMatrix(partes[0]);
+                Matrix m2 = parseMatrix(partes[1]);
+                pantalla.setText(matrixToString(m1.plus(m2)));
+                return;
+            } else if (expr.contains("-") && expr.contains("{")) {
+                String[] partes = expr.split("-");
+                Matrix m1 = parseMatrix(partes[0]);
+                Matrix m2 = parseMatrix(partes[1]);
+                pantalla.setText(matrixToString(m1.minus(m2)));
+                return;
+            } else if (expr.contains("*") && expr.contains("{")) {
+                String[] partes = expr.split("\\*");
+                if (!partes[0].contains("{")) {
+                    double escalar = Double.parseDouble(partes[0]);
+                    Matrix m = parseMatrix(partes[1]);
+                    pantalla.setText(matrixToString(m.times(escalar)));
+                } else {
+                    Matrix m1 = parseMatrix(partes[0]);
+                    Matrix m2 = parseMatrix(partes[1]);
+                    pantalla.setText(matrixToString(m1.times(m2)));
+                }
+                return;
+            } else if (expr.contains("/") && expr.contains("{")) {
+                String[] partes = expr.split("/");
+                Matrix m1 = parseMatrix(partes[0]);
+                Matrix m2 = parseMatrix(partes[1]);
+                pantalla.setText(matrixToString(m1.times(m2.inverse())));
                 return;
             }
 
-            // Evaluación matemática normal (usá tu parser si tenés uno)
-            double resultado = eval(expr);
+            // === OPERACIÓN ARITMÉTICA NORMAL ===
+            expr = reemplazarRaices(expr);
+            double resultado = evaluar(expr);
+            ans = resultado;
             pantalla.setText(String.valueOf(resultado));
+            pantalla.positionCaret(pantalla.getText().length());
 
         } catch (Exception e) {
-            pantalla.setText("ERROR");
+            pantalla.setText("Error");
             e.printStackTrace();
         }
     }
 
-    private String extraerMatriz(String expr) {
-        int start = expr.indexOf("{");
-        int end = expr.lastIndexOf("}");
-        if (start == -1 || end == -1 || end <= start) throw new RuntimeException("Matriz mal formada");
-        return expr.substring(start, end + 1);
-    }
-
-    private double[][] parsearMatriz(String texto) {
-        texto = texto.replace("{", "").replace("}", "").trim();
+    // === PASO 2: Conversión de texto a matriz ===
+    private Matrix parseMatrix(String texto) {
+        texto = texto.replaceAll("[{}]", ""); // Quitar llaves
         String[] filas = texto.split(";");
-        double[][] matriz = new double[filas.length][];
+        double[][] valores = new double[filas.length][];
         for (int i = 0; i < filas.length; i++) {
-            String[] nums = filas[i].trim().split("\\s+");
-            matriz[i] = new double[nums.length];
+            String[] nums = filas[i].split(",");
+            valores[i] = new double[nums.length];
             for (int j = 0; j < nums.length; j++) {
-                matriz[i][j] = Double.parseDouble(nums[j]);
+                valores[i][j] = Double.parseDouble(nums[j]);
             }
         }
-        return matriz;
+        return new Matrix(valores);
     }
 
-    private double[][] invertirMatriz(double[][] matriz) {
-        int n = matriz.length;
-        if (n != matriz[0].length) throw new RuntimeException("Matriz no cuadrada");
-        Matrix m = new Matrix(matriz);
-        Matrix inv = m.inverse();
-        return inv.getArray();
-    }
-
-    private double calcularDeterminante(double[][] matriz) {
-        Matrix m = new Matrix(matriz);
-        return m.det();
-    }
-
-    private String matrizToString(double[][] matriz) {
-        StringBuilder sb = new StringBuilder("{");
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz[i].length; j++) {
-                sb.append(String.format("%.2f", matriz[i][j]));
-                if (j < matriz[i].length - 1) sb.append(" ");
+    // === PASO 2: Conversión de matriz a texto ===
+    private String matrixToString(Matrix m) {
+        StringBuilder sb = new StringBuilder("{{");
+        for (int i = 0; i < m.getRowDimension(); i++) {
+            for (int j = 0; j < m.getColumnDimension(); j++) {
+                sb.append(m.get(i, j));
+                if (j < m.getColumnDimension() - 1) sb.append(",");
             }
-            if (i < matriz.length - 1) sb.append("; ");
+            if (i < m.getRowDimension() - 1) sb.append(";"); // Separador de filas
         }
-        sb.append("}");
+        sb.append("}}");
         return sb.toString();
     }
 
+    // === Reemplaza √ por Math.sqrt(...) ===
+    private String reemplazarRaices(String expr) {
+        while (expr.contains("√(")) {
+            int i = expr.indexOf("√(");
+            int j = encontrarCierre(expr, i + 2);
+            String inner = expr.substring(i + 2, j);
+            double val = Math.sqrt(evaluar(inner));
+            expr = expr.substring(0, i) + val + expr.substring(j + 1);
+        }
+        return expr;
+    }
 
-    private double eval(String expr) {
-        // Evaluación muy básica (solo suma/resta) – reemplazalo con un parser si tenés
-        return new javax.script.ScriptEngineManager()
-                .getEngineByName("JavaScript")
-                .eval(expr) instanceof Number
-                ? ((Number) new javax.script.ScriptEngineManager()
-                .getEngineByName("JavaScript")
-                .eval(expr)).doubleValue()
-                : 0;
+    private int encontrarCierre(String s, int i) {
+        int cont = 1;
+        for (int j = i; j < s.length(); j++) {
+            if (s.charAt(j) == '(') cont++;
+            else if (s.charAt(j) == ')') cont--;
+            if (cont == 0) return j;
+        }
+        return -1;
+    }
+
+    // === Evaluador aritmético simple ===
+    private double evaluar(String expr) {
+        return new Object() {
+            int pos = -1, ch;
+
+            void sig() {
+                ch = (++pos < expr.length()) ? expr.charAt(pos) : -1;
+            }
+
+            boolean comer(int c) {
+                while (ch == ' ') sig();
+                if (ch == c) {
+                    sig();
+                    return true;
+                }
+                return false;
+            }
+
+            double parse() {
+                sig();
+                double x = parseExp();
+                if (pos < expr.length()) throw new RuntimeException("Inesperado: " + (char) ch);
+                return x;
+            }
+
+            double parseExp() {
+                double x = parseTerm();
+                for (;;) {
+                    if (comer('+')) x += parseTerm();
+                    else if (comer('-')) x -= parseTerm();
+                    else return x;
+                }
+            }
+
+            double parseTerm() {
+                double x = parseFactor();
+                for (;;) {
+                    if (comer('*')) x *= parseFactor();
+                    else if (comer('/')) x /= parseFactor();
+                    else return x;
+                }
+            }
+
+            double parseFactor() {
+                if (comer('+')) return parseFactor();
+                if (comer('-')) return -parseFactor();
+
+                double x;
+                int startPos = this.pos;
+                if (comer('(')) {
+                    x = parseExp();
+                    comer(')');
+                } else if ((ch >= '0' && ch <= '9') || ch == '.') {
+                    while ((ch >= '0' && ch <= '9') || ch == '.') sig();
+                    x = Double.parseDouble(expr.substring(startPos, this.pos));
+                } else {
+                    throw new RuntimeException("Número esperado");
+                }
+
+                return x;
+            }
+        }.parse();
     }
 }
