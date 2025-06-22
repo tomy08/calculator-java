@@ -16,7 +16,7 @@ public class MainMenuController {
     }
 
     public void openVectors(ActionEvent event) throws IOException {
-        loadView(event, "/resources/Vectors.fxml", "Vector Operations");
+        loadView(event, "Vector.fxml", "Vector Operations");
     }
 
     public void openMatrices(ActionEvent event) throws IOException {

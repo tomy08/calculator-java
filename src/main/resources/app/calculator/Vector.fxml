@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="app.calculator.VectorController"
+      xmlns="http://javafx.com/javafx/8"
+      style="-fx-background-color: #f3f3f3; -fx-padding: 20;">
+
+    <Label text="Operaciones con Vectores" style="-fx-font-size: 20px;"/>
+    
+    <HBox spacing="5">
+        <TextField fx:id="vectorA" promptText="Vector A (ej: 1,2,3)" prefWidth="180"/>
+        <TextField fx:id="vectorB" promptText="Vector B (ej: 4,5,6)" prefWidth="180"/>
+    </HBox>
+    
+    <TextField fx:id="escalar" promptText="Escalar (opcional)" prefWidth="120"/>
+
+    <GridPane hgap="5" vgap="5">
+        <Button text="A + B" onAction="#handleSuma" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                style="-fx-font-size: 16px; -fx-background-color: #e5e5e5;"/>
+        <Button text="A - B" onAction="#handleResta" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                style="-fx-font-size: 16px; -fx-background-color: #e5e5e5;"/>
+        <Button text="Escalar × A" onAction="#handleEscalarA" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                style="-fx-font-size: 16px; -fx-background-color: #dcdcdc;"/>
+        <Button text="Escalar × B" onAction="#handleEscalarB" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                style="-fx-font-size: 16px; -fx-background-color: #dcdcdc;"/>
+        <Button text="A · B (Escalar)" onAction="#handleProductoEscalar" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                style="-fx-font-size: 16px; -fx-background-color: #f0cfcf;"/>
+        <Button text="A × B (Vectorial)" onAction="#handleProductoVectorial" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                style="-fx-font-size: 16px; -fx-background-color: #f0cfcf;"/>
+    </GridPane>
+
+    <TextField fx:id="resultado" editable="false" promptText="Resultado" prefWidth="300"
+               style="-fx-font-size: 18px; -fx-background-color: white;"/>
+</VBox>
