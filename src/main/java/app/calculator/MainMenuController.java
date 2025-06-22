@@ -24,7 +24,7 @@ public class MainMenuController {
     }
 
     public void openSystems(ActionEvent event) throws IOException {
-        loadView(event, "/resources/Systems.fxml", "Equation Systems");
+        loadView(event, "System.fxml", "Equation Systems");
     }
 
     public void exitApplication(ActionEvent event) {
