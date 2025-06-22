@@ -15,7 +15,7 @@ public class Main extends Application {
             primaryStage.setScene(scene);
             primaryStage.setTitle("Calculadora Principal");
             primaryStage.show();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

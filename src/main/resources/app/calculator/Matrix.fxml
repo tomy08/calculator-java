@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="app.calculator.MatrixController"
+      xmlns="http://javafx.com/javafx/8"
+      style="-fx-background-color: #f3f3f3; -fx-padding: 20;">
+
+    <Label text="Operaciones con Matrices" style="-fx-font-size: 20px;"/>
+    <HBox spacing="5">
+        <TextArea fx:id="matrizA" promptText="Matriz A (ej: 1,2;3,4)" prefWidth="180" prefHeight="60"/>
+        <TextArea fx:id="matrizB" promptText="Matriz B (ej: 5,6;7,8)" prefWidth="180" prefHeight="60"/>
+    </HBox>
+    <TextField fx:id="escalar" promptText="Escalar (opcional)" prefWidth="120"/>
+
+    <GridPane hgap="5" vgap="5">
+        <Button text="A + B" onAction="#handleSuma" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                style="-fx-font-size: 16px; -fx-background-color: #e5e5e5;"/>
+        <Button text="A - B" onAction="#handleResta" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                style="-fx-font-size: 16px; -fx-background-color: #e5e5e5;"/>
+        <Button text="Escalar × A" onAction="#handleEscalarA" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                style="-fx-font-size: 16px; -fx-background-color: #dcdcdc;"/>
+        <Button text="Escalar × B" onAction="#handleEscalarB" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                style="-fx-font-size: 16px; -fx-background-color: #dcdcdc;"/>
+        <Button text="A × B" onAction="#handleMultiplicar" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                style="-fx-font-size: 16px; -fx-background-color: #f0cfcf;"/>
+        <Button text="A / B" onAction="#handleDividir" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                style="-fx-font-size: 16px; -fx-background-color: #f0cfcf;"/>
+        <Button text="Det(A)" onAction="#handleDeterminanteA" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                style="-fx-font-size: 16px; -fx-background-color: #dcdcdc;"/>
+        <Button text="Transp(A)" onAction="#handleTranspuestaA" GridPane.rowIndex="3" GridPane.columnIndex="1"
+                style="-fx-font-size: 16px; -fx-background-color: #dcdcdc;"/>
+        <Button text="Inv(A)" onAction="#handleInversaA" GridPane.rowIndex="4" GridPane.columnIndex="0"
+                style="-fx-font-size: 16px; -fx-background-color: #e5e5e5;"/>
+    </GridPane>
+
+    <TextArea fx:id="resultado" editable="false" promptText="Resultado" prefWidth="300" prefHeight="60"
+              style="-fx-font-size: 18px; -fx-background-color: white;"/>
+</VBox>

@@ -16,15 +16,15 @@ public class MainMenuController {
     }
 
     public void openVectors(ActionEvent event) throws IOException {
-        loadView(event, "/resources/Vectors.fxml", "Vector Operations");
+        loadView(event, "Vector.fxml", "Vector Operations");
     }
 
     public void openMatrices(ActionEvent event) throws IOException {
-        loadView(event, "/resources/Matrices.fxml", "Matrix Operations");
+        loadView(event, "Matrix.fxml", "Matrix Operations");
     }
 
     public void openSystems(ActionEvent event) throws IOException {
-        loadView(event, "/resources/Systems.fxml", "Equation Systems");
+        loadView(event, "System.fxml", "Equation Systems");
     }
 
     public void exitApplication(ActionEvent event) {
@@ -33,7 +33,7 @@ public class MainMenuController {
 
     private void loadView(ActionEvent event, String fxmlPath, String title) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
         stage.setScene(new Scene(root));
         stage.show();

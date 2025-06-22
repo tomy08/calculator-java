@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="app.calculator.SystemController" style="-fx-padding: 20; -fx-background-color: #fafafa;">
+
+    <Label text="Resolver sistema de ecuaciones" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <!-- Sistema 2x2 -->
+    <TitledPane text="Sistema 2x2" expanded="true" maxWidth="400">
+        <GridPane hgap="5" vgap="5">
+            <Label text="a11:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="a11_2" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="50"/>
+            <Label text="a12:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <TextField fx:id="a12_2" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="50"/>
+            <Label text="b1:" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+            <TextField fx:id="b1_2" GridPane.rowIndex="0" GridPane.columnIndex="5" prefWidth="50"/>
+
+            <Label text="a21:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="a21_2" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="50"/>
+            <Label text="a22:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <TextField fx:id="a22_2" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="50"/>
+            <Label text="b2:" GridPane.rowIndex="1" GridPane.columnIndex="4"/>
+            <TextField fx:id="b2_2" GridPane.rowIndex="1" GridPane.columnIndex="5" prefWidth="50"/>
+
+            <Button text="Resolver 2x2" onAction="#handleResolver2x2" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="6" 
+                    style="-fx-font-size: 14px; -fx-background-color: #a2d5f2;"/>
+        </GridPane>
+    </TitledPane>
+
+    <!-- Sistema 3x3 -->
+    <TitledPane text="Sistema 3x3" expanded="false" maxWidth="400">
+        <GridPane hgap="5" vgap="5" >
+            <Label text="a11:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="a11_3" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="40"/>
+            <Label text="a12:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <TextField fx:id="a12_3" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="40"/>
+            <Label text="a13:" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+            <TextField fx:id="a13_3" GridPane.rowIndex="0" GridPane.columnIndex="5" prefWidth="40"/>
+            <Label text="b1:" GridPane.rowIndex="0" GridPane.columnIndex="6"/>
+            <TextField fx:id="b1_3" GridPane.rowIndex="0" GridPane.columnIndex="7" prefWidth="50"/>
+
+            <Label text="a21:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="a21_3" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="40"/>
+            <Label text="a22:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <TextField fx:id="a22_3" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="40"/>
+            <Label text="a23:" GridPane.rowIndex="1" GridPane.columnIndex="4"/>
+            <TextField fx:id="a23_3" GridPane.rowIndex="1" GridPane.columnIndex="5" prefWidth="40"/>
+            <Label text="b2:" GridPane.rowIndex="1" GridPane.columnIndex="6"/>
+            <TextField fx:id="b2_3" GridPane.rowIndex="1" GridPane.columnIndex="7" prefWidth="50"/>
+
+            <Label text="a31:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="a31_3" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="40"/>
+            <Label text="a32:" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+            <TextField fx:id="a32_3" GridPane.rowIndex="2" GridPane.columnIndex="3" prefWidth="40"/>
+            <Label text="a33:" GridPane.rowIndex="2" GridPane.columnIndex="4"/>
+            <TextField fx:id="a33_3" GridPane.rowIndex="2" GridPane.columnIndex="5" prefWidth="40"/>
+            <Label text="b3:" GridPane.rowIndex="2" GridPane.columnIndex="6"/>
+            <TextField fx:id="b3_3" GridPane.rowIndex="2" GridPane.columnIndex="7" prefWidth="50"/>
+
+            <Button text="Resolver 3x3" onAction="#handleResolver3x3" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.columnSpan="8"
+                    style="-fx-font-size: 14px; -fx-background-color: #f7a072;"/>
+        </GridPane>
+    </TitledPane>
+
+    <TextArea fx:id="resultado" editable="false" prefWidth="400" prefHeight="100" wrapText="true"
+              style="-fx-font-size: 16px; -fx-background-color: white;"/>
+</VBox>
