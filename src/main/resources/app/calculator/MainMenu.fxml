@@ -9,12 +9,12 @@
     <children>
         <VBox alignment="CENTER" layoutX="56.0" layoutY="81.0" prefWidth="500" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 14; -fx-padding: 28; -fx-effect: dropshadow(gaussian, rgba(44,62,80,0.08), 14, 0, 0, 7);">
             <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #263445; -fx-padding: 0 0 10 0;" text="Calculadora - Menú Principal" />
-
-            <Button onAction="#openBasic" style="-fx-background-radius: 8; -fx-font-size: 15px;" styleClass="menu-button" text="Operaciones básicas" />
-            <Button onAction="#openVectors" style="-fx-background-radius: 8; -fx-font-size: 15px;" styleClass="menu-button" text="Operaciones con Vectores" />
-            <Button onAction="#openMatrices" style="-fx-background-radius: 8; -fx-font-size: 15px;" styleClass="menu-button" text="Operaciones de Matrices" />
-            <Button onAction="#openSystems" style="-fx-background-radius: 8; -fx-font-size: 15px;" styleClass="menu-button" text="Sistemas de Ecuaciones" />
-            <Button onAction="#exitApplication" style="-fx-background-radius: 8; -fx-font-size: 15px;" styleClass="menu-button-exit" text="Salir del Programa" />
-        </VBox>
+            
+            <Button onAction="#openBasic" style="-fx-background-radius: 8; -fx-font-size: 15px; -fx-padding: 8 18;" styleClass="menu-button" text="Operaciones básicas" />
+            <Button onAction="#openVectors" style="-fx-background-radius: 8; -fx-font-size: 15px; -fx-padding: 8 18;" styleClass="menu-button" text="Operaciones con Vectores" />
+            <Button onAction="#openMatrices" style="-fx-background-radius: 8; -fx-font-size: 15px; -fx-padding: 8 18;" styleClass="menu-button" text="Operaciones de Matrices" />
+            <Button onAction="#openSystems" style="-fx-background-radius: 8; -fx-font-size: 15px; -fx-padding: 8 18;" styleClass="menu-button" text="Sistemas de Ecuaciones" />
+            <Button onAction="#exitApplication" style="-fx-background-radius: 8; -fx-font-size: 15px; -fx-padding: 8 18;" styleClass="menu-button-exit" text="Salir del Programa" />
+</VBox>
     </children>
 </AnchorPane>
