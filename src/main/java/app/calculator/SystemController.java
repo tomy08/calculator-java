@@ -1,8 +1,15 @@
 package app.calculator;
 
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class SystemController {
 
@@ -17,6 +24,20 @@ public class SystemController {
     private TextField a21_3, a22_3, a23_3, b2_3;
     @FXML
     private TextField a31_3, a32_3, a33_3, b3_3;
+
+    @FXML
+    private void volverAlMenu(ActionEvent event) throws IOException {
+        loadView(event, "MainMenu.fxml", "Volver al Menú Principal");
+    }
+
+    private void loadView(ActionEvent event, String fxmlFile, String title) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle(title);
+        stage.show();
+    }
 
     @FXML
     private TextArea resultado;

@@ -1,7 +1,14 @@
 package app.calculator;
 
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class VectorController {
 
@@ -16,6 +23,20 @@ public class VectorController {
 
     @FXML
     private TextField resultado;
+
+    @FXML
+    private void volverAlMenu(ActionEvent event) throws IOException {
+        loadView(event, "MainMenu.fxml", "Volver al Menú Principal");
+    }
+
+    private void loadView(ActionEvent event, String fxmlFile, String title) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle(title);
+        stage.show();
+    }
 
     @FXML
     private void handleSuma() {

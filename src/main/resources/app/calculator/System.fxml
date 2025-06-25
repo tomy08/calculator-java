@@ -68,4 +68,6 @@
 
     <TextArea fx:id="resultado" editable="false" prefWidth="400" prefHeight="100" wrapText="true"
               style="-fx-font-size: 16px; -fx-background-color: white;"/>
+
+    <Button fx:id="btnVolverMenu" text="Volver al Menú" onAction="#volverAlMenu" layoutX="10" layoutY="10"/>
 </VBox>

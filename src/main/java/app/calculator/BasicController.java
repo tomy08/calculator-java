@@ -1,10 +1,18 @@
 package app.calculator;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
+
 import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 
 public class BasicController {
 
@@ -15,6 +23,20 @@ public class BasicController {
 
     private int pos;
     private String input;
+
+    @FXML
+    private void volverAlMenu(ActionEvent event) throws IOException {
+        loadView(event, "MainMenu.fxml", "Volver al Menú Principal");
+    }
+
+    private void loadView(ActionEvent event, String fxmlFile, String title) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle(title);
+        stage.show();
+    }
 
     @FXML
     private void initialize() {
@@ -34,7 +56,6 @@ public class BasicController {
             pantalla.positionCaret(pantalla.getText().length());
         }
     }
-
 
     @FXML
     private void handleBoton(ActionEvent event) {
@@ -77,7 +98,6 @@ public class BasicController {
         pantalla.positionCaret(pantalla.getText().length() - 1);
     }
 
-
     /**
      * Convierte expresiones con raíz (√) en potencias con exponentes fraccionales.
      * Por ejemplo: 3√(8) => (8)^(1/3)
@@ -111,8 +131,10 @@ public class BasicController {
                     k++;
                     int start = k;
                     while (k < expr.length() && count > 0) {
-                        if (expr.charAt(k) == '(') count++;
-                        else if (expr.charAt(k) == ')') count--;
+                        if (expr.charAt(k) == '(')
+                            count++;
+                        else if (expr.charAt(k) == ')')
+                            count--;
                         k++;
                     }
                     String inside = expr.substring(start, k - 1);
@@ -148,8 +170,10 @@ public class BasicController {
             if (op == '+' || op == '-') {
                 pos++;
                 double y = parseTerm();
-                if (op == '+') x += y;
-                else x -= y;
+                if (op == '+')
+                    x += y;
+                else
+                    x -= y;
             } else {
                 break;
             }
@@ -164,9 +188,11 @@ public class BasicController {
             if (op == '*' || op == '/') {
                 pos++;
                 double y = parseFactor();
-                if (op == '*') x *= y;
+                if (op == '*')
+                    x *= y;
                 else {
-                    if (y == 0) throw new ArithmeticException("División por cero");
+                    if (y == 0)
+                        throw new ArithmeticException("División por cero");
                     x /= y;
                 }
             } else {
@@ -206,7 +232,8 @@ public class BasicController {
     }
 
     private double parsePrimary() {
-        if (pos >= input.length()) throw new RuntimeException("Expresión incompleta");
+        if (pos >= input.length())
+            throw new RuntimeException("Expresión incompleta");
 
         char c = input.charAt(pos);
 
@@ -223,7 +250,8 @@ public class BasicController {
         boolean decimalFound = false;
         while (pos < input.length() && (Character.isDigit(input.charAt(pos)) || input.charAt(pos) == '.')) {
             if (input.charAt(pos) == '.') {
-                if (decimalFound) break;
+                if (decimalFound)
+                    break;
                 decimalFound = true;
             }
             sb.append(input.charAt(pos++));
